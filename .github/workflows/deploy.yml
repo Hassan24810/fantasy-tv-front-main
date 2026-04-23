@@ -3,7 +3,6 @@ name: Deploy React App to GitHub Pages
 on:
   push:
     branches:
-      - main
       - main_branch   # 👈 ADD THIS
 
 permissions:

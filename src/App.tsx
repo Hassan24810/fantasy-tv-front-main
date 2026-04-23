@@ -58,7 +58,7 @@ const App = () => (
     <AuthProvider>
       <TooltipProvider>
         
-        <BrowserRouter>
+        <BrowserRouter basename="/fantasy-tv-front-main">
           <SessionRoutePersistence />
           <Routes>
             <Route path="/" element={<Index />} />

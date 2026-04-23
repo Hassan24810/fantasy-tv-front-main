@@ -25,15 +25,11 @@
   <meta name="twitter:title" content="FantasyReality">
   <meta property="og:description"
     content="Fantasy Reality is a SaaS solution where each television show can create fantasy solutions for their website (similar to fantasy football)">
-  <meta name="twitter:description"
+  <meta name="twitter:description" 
     content="Fantasy Reality is a SaaS solution where each television show can create fantasy solutions for their website (similar to fantasy football)">
   <script>
     const path = new URLSearchParams(window.location.search).get('path');
-    if (path) {
-      const base = '/fantasy-tv-front-main';
-      const cleanPath = path.startsWith(base) ? path : base + path;
-      window.history.replaceState(null, '', cleanPath);
-    }
+    if (path) window.history.replaceState(null, '', path);
   </script>
 </head>
 

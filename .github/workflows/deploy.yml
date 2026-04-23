@@ -2,10 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main_branch]
 
 jobs:
-  deploy:
+  deploy: github-pages:
     runs-on: ubuntu-latest
 
     permissions:

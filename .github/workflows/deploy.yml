@@ -1,38 +1,48 @@
-name: Deploy React App to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main_branch   # 👈 ADD THIS
-
-permissions:
-  contents: write
+    branches: [main]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build
         run: npm run build
         env:
-          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbXRpdHVkbnd0a2VrcmVqbnpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NzYxMTIsImV4cCI6MjA4MjQ1MjExMn0.mZShtedehqps0whWRPyScQ8UOI1dMzaENN4IFatNjME"
+          SUPABASE_URL: "https://gdmtitudnwtkekrejnzg.supabase.co"
+          VITE_SUPABASE_PROJECT_ID: "gdmtitudnwtkekrejnzg"
+          VITE_SUPABASE_PUBLISHABLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4ZWlybnFqc3RydGtibWN4b211Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MjExMzgsImV4cCI6MjA5MTk5NzEzOH0.BulZimGO9bMvFek1CoE0nQ5vfzwY5GMs3EoalxV615U"
+          VITE_SUPABASE_URL: "https://txeirnqjstrtkbmcxomu.supabase.co"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+        uses: actions/deploy-pages@v4
+        id: deployment

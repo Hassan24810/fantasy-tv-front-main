@@ -5,7 +5,7 @@ on:
     branches: [main_branch]
 
 jobs:
-  deploy: github-pages:
+  deploy:
     runs-on: ubuntu-latest
 
     permissions:

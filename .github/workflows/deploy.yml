@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
       pages: write
@@ -30,13 +29,14 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: npm run build -- --mode production
         env:
-          SUPABASE_PUBLISHABLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbXRpdHVkbnd0a2VrcmVqbnpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NzYxMTIsImV4cCI6MjA4MjQ1MjExMn0.mZShtedehqps0whWRPyScQ8UOI1dMzaENN4IFatNjME"
-          SUPABASE_URL: "https://gdmtitudnwtkekrejnzg.supabase.co"
-          VITE_SUPABASE_PROJECT_ID: "gdmtitudnwtkekrejnzg"
-          VITE_SUPABASE_PUBLISHABLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4ZWlybnFqc3RydGtibWN4b211Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MjExMzgsImV4cCI6MjA5MTk5NzEzOH0.BulZimGO9bMvFek1CoE0nQ5vfzwY5GMs3EoalxV615U"
           VITE_SUPABASE_URL: "https://txeirnqjstrtkbmcxomu.supabase.co"
+          VITE_SUPABASE_PUBLISHABLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4ZWlybnFqc3RydGtibWN4b211Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MjExMzgsImV4cCI6MjA5MTk5NzEzOH0.BulZimGO9bMvFek1CoE0nQ5vfzwY5GMs3EoalxV615U"
+          VITE_SUPABASE_PROJECT_ID: "gdmtitudnwtkekrejnzg"
+
+      - name: Verify dist
+        run: ls -la dist/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

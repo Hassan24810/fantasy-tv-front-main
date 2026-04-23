@@ -1,0 +1,311 @@
+erDiagram
+  AUTH_USERS {
+    uuid id PK
+  }
+
+  profiles {
+    uuid id PK
+    uuid user_id UK, FK
+    text email
+    text full_name
+    text avatar_url
+    text company_name
+    text phone
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  shows {
+    uuid id PK
+    uuid user_id FK
+    text name
+    text genre
+    text description
+    text cover_image_url
+    int season_number
+    int episode_count
+    text status
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  participants {
+    uuid id PK
+    uuid show_id FK
+    text name
+    text bio
+    text photo_url
+    int age
+    text occupation
+    text hometown
+    text status
+    int eliminated_episode
+    uuid eliminated_by_event_id FK
+    text visibility
+    text media_type
+    text media_url
+    jsonb attachments
+    int available_from_episode
+    text role
+    text gender
+    text custom_status_label
+    int price
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  game_rules {
+    uuid id PK
+    uuid show_id FK
+    text event_name
+    text event_type
+    int points
+    text description
+    text template
+    text icon
+    int participants_count
+    jsonb points_per_position
+    text participant_count_mode
+    boolean is_elimination
+    int eliminated_position
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  events {
+    uuid id PK
+    uuid show_id FK
+    uuid participant_id FK
+    uuid rule_id FK
+    int episode_number
+    timestamptz event_date
+    text notes
+    int points_awarded
+    int event_offset_minutes
+    int event_offset_seconds
+    timestamptz created_at
+  }
+
+  episodes {
+    uuid id PK
+    uuid show_id FK
+    int episode_number
+    text episode_name
+    boolean is_active
+    timestamptz active_from_datetime
+    timestamptz active_until_datetime
+    int events_count
+    int episode_duration_minutes
+    int episode_duration_seconds
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  show_users {
+    uuid id PK
+    uuid show_id FK
+    uuid user_id FK
+    text username
+    text email
+    int total_points
+    int gw_points
+    text gender
+    text avatar_url
+    timestamptz joined_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  user_teams {
+    uuid id PK
+    uuid show_id FK
+    uuid user_id FK
+    uuid participant_id FK
+    int slot_position
+    int added_episode
+    int removed_episode
+    timestamptz added_at
+    timestamptz removed_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  transfers {
+    uuid id PK
+    uuid show_id FK
+    uuid user_id FK
+    uuid participant_out_id FK
+    uuid participant_in_id FK
+    timestamptz transfer_date
+    text reset_period
+    int effective_from_episode
+    timestamptz created_at
+  }
+
+  leagues {
+    uuid id PK
+    uuid show_id FK
+    text name
+    text description
+    boolean is_public
+    int max_members
+    text invite_code UK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  league_members {
+    uuid id PK
+    uuid league_id FK
+    uuid show_user_id FK
+    uuid user_id FK
+    uuid show_id FK
+    timestamptz joined_at
+  }
+
+  event_participants {
+    uuid id PK
+    uuid event_id FK
+    uuid participant_id FK
+    int points_awarded
+    int participant_position
+    timestamptz created_at
+  }
+
+  game_settings {
+    uuid id PK
+    uuid show_id UK, FK
+    int team_size
+    int min_boys
+    int min_girls
+    int max_boys
+    int max_girls
+    text transfer_reset_frequency
+    int transfers_per_reset
+    text transfer_window_mode
+    jsonb transfer_windows
+    int max_players_per_category
+    boolean budget_mode_enabled
+    int budget_amount
+    boolean lock_roster_after_episode
+    boolean wildcard_enabled
+    boolean free_hit_enabled
+    text scoring_profile
+    boolean bonus_points_enabled
+    text tiebreak_rule
+    text language
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  branding_settings {
+    uuid id PK
+    uuid show_id UK, FK
+    text logo_url
+    text background_image_url
+    text cover_image_url
+    text primary_color
+    text secondary_color
+    text facebook_username
+    text instagram_username
+    text twitter_username
+    text tiktok_username
+    text contact_email
+    text contact_phone
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  admin_permissions {
+    uuid id PK
+    uuid show_id FK
+    uuid user_id
+    text email
+    text role
+    boolean can_publish_episodes
+    uuid invited_by
+    timestamptz invited_at
+    text status
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  landing_page_content {
+    uuid id PK
+    uuid show_id UK
+    text about_title
+    text about_description
+    jsonb about_items
+    text how_it_works_title
+    text how_it_works_subtitle
+    jsonb how_it_works_cards
+    text faq_title
+    jsonb faq_items
+    text hero_title
+    text hero_subtitle
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  show_updates {
+    uuid id PK
+    uuid show_id
+    text title
+    text body
+    text type
+    timestamptz publish_at
+    timestamptz expire_at
+    boolean is_enabled
+    uuid created_by
+    text media_url
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  rule_templates {
+    uuid id PK
+    text name
+    text description
+    text template
+    int participants_count
+    text participant_count_mode
+    jsonb points_per_position
+    text icon
+    text event_type
+    boolean is_elimination
+    int sort_order
+    timestamptz created_at
+  }
+
+  AUTH_USERS ||--o| profiles : "has profile"
+  AUTH_USERS ||--o{ shows : "owns"
+  AUTH_USERS ||--o{ show_users : "joins show"
+  AUTH_USERS ||--o{ user_teams : "builds team"
+  AUTH_USERS ||--o{ transfers : "makes transfers"
+  AUTH_USERS ||--o{ league_members : "joins leagues"
+
+  shows ||--o{ participants : "has contestants"
+  shows ||--o{ game_rules : "has rules"
+  shows ||--o{ events : "has events"
+  shows ||--o{ episodes : "has episodes"
+  shows ||--o{ show_users : "has players"
+  shows ||--o{ user_teams : "has team slots"
+  shows ||--o{ transfers : "has transfer logs"
+  shows ||--o{ leagues : "has leagues"
+  shows ||--o{ league_members : "scope"
+  shows ||--o| game_settings : "has settings"
+  shows ||--o| branding_settings : "has branding"
+  shows ||--o{ admin_permissions : "has admins"
+
+  participants ||--o{ event_participants : "appears in"
+  participants ||--o{ user_teams : "selected in"
+  participants ||--o{ transfers : "outgoing"
+  participants ||--o{ transfers : "incoming"
+
+  game_rules ||--o{ events : "scores"
+
+  events ||--o{ event_participants : "includes participants"
+  events }o--o| participants : "legacy primary participant"
+
+  leagues ||--o{ league_members : "has members"
+  show_users ||--o{ league_members : "membership record"

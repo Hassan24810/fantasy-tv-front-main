@@ -1,0 +1,1 @@
+ALTER TABLE public.branding_settings ADD COLUMN contact_email TEXT, ADD COLUMN contact_phone TEXT;

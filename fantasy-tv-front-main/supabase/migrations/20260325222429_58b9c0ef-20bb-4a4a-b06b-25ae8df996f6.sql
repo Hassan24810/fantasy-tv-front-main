@@ -1,1 +1,0 @@
-ALTER TABLE public.participants ADD COLUMN price integer DEFAULT NULL;

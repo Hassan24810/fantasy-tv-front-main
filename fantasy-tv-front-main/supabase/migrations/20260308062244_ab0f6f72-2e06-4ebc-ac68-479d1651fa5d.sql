@@ -1,2 +1,0 @@
-ALTER TABLE public.event_participants REPLICA IDENTITY FULL;
-ALTER TABLE public.events REPLICA IDENTITY FULL;

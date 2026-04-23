@@ -1,1 +1,0 @@
-ALTER TABLE public.show_updates ADD COLUMN media_url text DEFAULT NULL;
